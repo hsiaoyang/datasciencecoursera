@@ -1,6 +1,6 @@
 ## 学习R语言要点整理
 
-### knowledge point 去除数据框中的NA
+### `knowledge point` 去除数据框中的NA
 
 > x<-data.frame(x1=c(1,NA,2,23),x2=c(3,4,NA,3),x3=c(5,3,9,78))```
 
