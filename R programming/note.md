@@ -1,6 +1,207 @@
 ## 学习R语言要点整理
 
-### `knowledge point` 去除数据框中的NA
+### 基础知识
+
+* `·(.packages())` 查看已加载的R包
+* `library()` `(.packages(all.available=TRUE))` `installed.packages()`查看已安装的R包
+
+**特殊值**
+
+* NA：表示note available；
+* 若向量长度扩展超过向量初始长度，用NA来填补；
+* NAN：not a number
+* inf 和 -inf 表示正无穷和负无穷，若计算得到特别大的值会返回。
+
+**数值向量**
+
+* 输入简单整数，R表达式会解释为双精度浮点数；
+* 得到整数，用`as()`	函数：`as(20,"integer")`
+* `c()` 函数可以将任意一组数字合并为一个向量；
+* R支持复数操作，复数值写为：`实部+虚部i` 的形式；
+* 如果字符向量中有特殊符号，用反斜杠\ 对其进行转义；
+* 可以用反引号定义一个包含特殊字符和数字开头的符号,如下：
+
+```
+`1+2=3` <- "hello"
+```
+
+**运算符**
+
+* 加法 +
+* 乘法 *
+* 取模 %%
+* 指数 ^
+* 整除 %/%
+* 自定义运算符：由一对百分号% 和百分号中间的字符串组成。
+
+```
+> `%myop%` <- function(a,b) {2*a+2*b}
+> 1 %myop% 1  
+> #输出结果是4
+> 1 %myop% 2
+> #输出结果是6
+```
+
+**运算顺序**
+
+下面是对运算先后顺序的总结（按照优先级由高到低排序）
+
+* 函数调用和分组表达式
+* 索引和查找运算符
+* 算术运算
+* 比较运算
+* 公式
+* 赋值
+* 帮助
+
+**条件语句**
+
+条件语句不是向量型运算，如下：
+
+```
+> x<-10
+> y<-c(8,23,23,34,34)
+> if(x>y) x else y 
+[1] 10
+Warning message:
+In if (x > y) x else y : 条件的长度大于一，因此只能用其第一元素
+```
+
+若要进行向量化操作，使用`ifelse()`函数
+
+```
+> x<-10
+> y<-c(8,23,23,34,34)
+> ifelse(x>y,"TRUE","FALSE")
+[1] "TRUE"  "FALSE" "FALSE" "FALSE" "FALSE"
+```
+
+条件语句的`switch()`函数, 如下
+
+```
+switch_function<-function(x){
+      switch(x, "1"="number_1","2"="number_2","3"="number_3")  
+}
+
+#执行结果
+> switch_function(2)
+[1] "number_2"
+```
+
+**循环**
+
+R中有三种不同的循环结构
+
+* repeat 结构，跳出循环用break， 跳至下一轮循环用next 
+
+```
+repeat {if(i>20) break else {print(i); i<-i+5;}}
+```
+
+*  while 结构，仍可使用break 和 next 
+
+```
+while(i<=15){print(i);i<-i+5}
+```
+
+* for  结构；遍历向量中的每个项目
+
+```
+for ( i in seq(from=5,to=25,by=5)) print(i)
+```
+
+**整数向量引用**
+ 
+```
+> m<-matrix(data=c(101:112),nrow=3,ncol=4)
+> m
+     [,1] [,2] [,3] [,4]
+[1,]  101  104  107  110
+[2,]  102  105  108  111
+[3,]  103  106  109  112
+> m[12]  
+> #第12个元素的值 等同于 m[3,4]
+[1] 112
+> m[3,4]
+[1] 112
+
+```
+
+
+ 
+
+
+**数据结构操作符**
+
+* `x[i] `  返回对象 x 中用 i 描述的元素
+* `x[[i]]`  返回对象 x 的单个元素，由 i 决定。允许部分匹配（设置 exact=FALSE）
+* `x$n`   返回对象 x 中 名字为 n 的元素
+
+但括号和双括号的区别：
+
+* 双括号总是返回单个元素，单括号可以返回多个元素；
+* 通过元素名引用元素时，单括号仅支持完全匹配，双括号支持部分匹配；
+* 针对列表操作时，单括号返回一个列表，双括号返回一个向量。
+
+*可以通过负号返回一个删除特定元素的向量*
+
+**因子**
+
+因子是R中表示分类信息的方法。因子型变量通常是一个有序项目的集合。因子型向量可以取得的所有值被称为因子水平。
+
+```
+> eye_colors<-factor(c("brown","blue","green","brown","brown"))
+> levels((eye_colors))
+[1] "blue"  "brown" "green"
+> eye_colors
+[1] brown blue  green brown brown
+Levels: blue brown green
+> class(eye_colors)
+[1] "factor"
+# 通过移除类属性创建整型向量
+> eye_colors_integer_vector<-unclass(eye_colors)
+> eye_colors_integer_vector
+[1] 2 1 3 2 2
+attr(,"levels")
+[1] "blue"  "brown" "green"
+# 通过设定类属性将整型向量重新转换为因子
+> class(eye_colors_integer_vector)<-"factor"
+> eye_colors_integer_vector
+[1] brown blue  green brown brown
+Levels: blue brown green
+```
+
+
+
+
+
+### 创建R包
+
+* `package.skeleton()` 此函数可创建一个合适的目录结构。
+
+执行函数时，会创建若干文件。有目录“man”（帮助文档）、R（R源文件）和data（数据文件）。最重要的是根目录中的DESPIRTION文件。
+
+* 检查包的创建方式是否符合CRAN的规范
+
+```
+R CMD check Package_name
+```
+
+用以下命令创建R包
+```
+R CMD build nutshell
+```
+
+
+### R语言强制转换规则
+
+* 逻辑型转为数值型时，TRUE转为1，FALSE转为0
+* 对象的值被转换为展示所有信息所需要的最简单的类型；
+* 顺序是：logical<integer<numeric<complex<character<list
+* 类型为raw的对象不会被转换为其他类型
+* 当对象被强制转换为其他类型时，对象属性会被删除
+
+### 去除数据框中的NA
 
 > x<-data.frame(x1=c(1,NA,2,23),x2=c(3,4,NA,3),x3=c(5,3,9,78))```
 
@@ -30,3 +231,6 @@ x1 x2 x3
 1  3  5
 23  3 78
 ```
+
+
+
