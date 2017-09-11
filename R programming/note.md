@@ -232,5 +232,47 @@ x1 x2 x3
 23  3 78
 ```
 
+### R语言重命名数据框某列
+
+如下代码：
+
+```
+x <- data.frame("var1"=sample(1:5),"var2"=sample(6:10),"var3"=sample(11:15))
+> x
+  var1 var2 var3
+1    2    6   11
+2    5    8   13
+3    4    7   12
+4    3   10   14
+5    1    9   15
+> names(x)[3]<-"three_col"
+# 通过names(x)[3]重命名第3列的列名；
+# 
+> x
+  var1 var2 three_col
+1    2    6        11
+2    5    8        13
+3    4    7        12
+4    3   10        14
+5    1    9        15
+
+#以下是是错误示例：
+
+> names(x)["var2"]<-"two"
+Error in names(x)["var2"] <- "two" : 
+  'names'属性的长度[4]必需和矢量的长度[3]一样
+> names(x)[var2]<-"two"
+Error in names(x)[var2] <- "two" : 找不到对象'var2'
+> names(x)[2]<-"two"
+> x
+  var1 two three_col
+1    2   6        11
+2    5   8        13
+3    4   7        12
+4    3  10        14
+5    1   9        15
+
+
+```
 
 
