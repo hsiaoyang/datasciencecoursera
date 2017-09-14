@@ -171,6 +171,90 @@ attr(,"levels")
 Levels: blue brown green
 ```
 
+**函数参数的...**
+
+R可以编写一个参数数目可变的函数,可以在参数列表上添加一个...实现这个功能.
+
+```
+>f<-funciton(x,...){print(x);summary(...)}
+>f("Print us",c(1:10)
+#...被传递给SUMMARY()
+```
+
+**函数参数进行调整**
+
+* formals()调整函数参数
+* alist() 构建函数参数列表
+* args() 返回函数参数
+* body() 查看函数的函数体
+
+
+R语言中,函数指定默认值了, 可以使用formals()函数进行调整;
+
+例如:
+
+```
+> f<-function(x,y=1,z=3){x+y+z}
+> args(f)
+function (x, y = 1, z = 3) 
+NULL
+# args()函数可以查看函数的参数
+> f.formals<-formals(f)
+> f.formals
+$x
+
+
+$y
+[1] 1
+
+$z
+[1] 3
+
+> f.formals$x
+> f.formals$y
+[1] 1
+> f.formals$y<-3
+#更改参数y的值为3
+> args(f)
+function (x, y = 1, z = 3) 
+NULL
+> formals(f)<-f.formals
+#将f函数的参数重新赋值
+> args(f)
+function (x, y = 3, z = 3) 
+NULL
+```
+
+R提供了一个函数alist()来构建参数列表,像定义函数一样简单的指定参数列表.
+
+```
+>f<-function(X,Y=1,Z=3){X+Y+Z}
+>formals(f)<-alist(X=,Y=100,Z=200)
+>factor
+function(X,Y=100,Z=200)
+{
+X+Y+Z}
+}
+```
+
+**R语言中 <- 和<<- 符号的区别**
+
+<<- 操作符,一般使用形式:var<<-value  会使解释器首先在当前环境中检索寻找符号var. 无法找到就会在父环境中继续查找,直到找到该符号或到达全局环境.
+假如解释器在到达全局环境时,依然没有找到var, R就会在全局环境中指定var的值为value.
+
+```
+> x<-function(i){x<-i}
+> x(4)
+> x
+function(i){x<-i}
+> x<-function(i){x<<-i}
+> x(4)
+> x
+[1] 4
+```
+
+
+
 
 
 
