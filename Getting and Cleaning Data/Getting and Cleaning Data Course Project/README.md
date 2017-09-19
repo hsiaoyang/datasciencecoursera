@@ -1,6 +1,6 @@
 ### Getting and Cleaning Data Course Project
 
-#####How the script works 
+##### How the script works 
 
 * Download all the files, set this directory to work directory
 * Read all the file data and rename it, then merge the data
