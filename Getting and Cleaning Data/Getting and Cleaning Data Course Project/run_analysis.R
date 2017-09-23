@@ -1,56 +1,39 @@
-##1.read all data and names them
+##read all data 
 
-sub_train <- read.table("./train/subject_train.txt")
-sub_test <- read.table("./test/subject_test.txt")
+sub_train <- read.table("train/subject_train.txt")
+x_train <- read.table("train/X_train.txt")
+y_train <- read.table("train/y_train.txt")
 
-x_train <- read.table("./train/X_train.txt")
-y_train <- read.table("./train/y_train.txt")
-
-x_test <- read.table("./test/X_test.txt")
-y_test <- read.table("./test/y_test.txt")
-
-names(sub_train)<- "SubjectID"
-names(sub_test) <- "SubjectID"
-
-# read  features.txt and add column names
+sub_test <- read.table("test/subject_test.txt")
+x_test <- read.table("test/X_test.txt")
+y_test <- read.table("test/y_test.txt")
 
 feature_names <- read.table("features.txt")
-names(x_train) <- feature_names$V2
-names(x_test) <- feature_names$V2
+activity_labels <- read.table("./activity_labels.txt")
 
-names(y_train) <- "activity"
-names(y_test) <- "activity"
+#  merge the test and trian subject datasets
+subject<-rbind(sub_train,sub_test)
+colnames(subject)<-"Subject"
 
-# 2. merge all data
-train <- cbind(sub_train,y_train,x_train)
-test <- cbind(sub_test,y_test,x_test)
+# merge the test and trian labels
 
-train_test <- rbind(train,test)
+label <- rbind(y_test,y_train)
+label <- merge(label,activity_labels,by=1)[,2]
 
+data <- rbind(x_test, x_train)
+colnames(data) <- feature_names[, 2]
 
-##3. find  which columns contain "mean()" or "std()"
+data <- cbind(subject, label, data)
 
-mean_std_cols <- grepl("mean\\(\\)",names(train_test)) | grepl("mean\\(\\)",names(train_test))
-##result
-## FALSE FALSE  TRUE  TRUE  TRUE FALSE
-
-mean_std_cols <- TRUE
-
-train_test <- train_test[,mean_std_cols]
-
-#4.names activity columns
-
-train_test$activity <- factor(train_test$activity,labels = c("WALKING","WALKING UPSTAIRS","WALKING DOWNSTAIRS","SITTING","STANDING","LAYING"))
-
-library(data.table)
-melt_train_test <- melt(train_test,id=c("SubjectID","activity"))
-##names(melt_train_test)
-##[1] "SubjectID" "activity"  "variable"  "value"   
-
-##5. Use "variable" to group "SubjectID" and "activity"
-result <- dcast(melt_train_test, SubjectID+activity ~ variable, mean)
-
-write.table(result, "result.txt",row.name=FALSE)
+# Create a subset containing only the mean and std variables
+search_data <- grep("-mean|-std", colnames(data))
+mean_std <- data[,c(1,2,search_data)]
 
 
+# calculate  means, grouped by subject/label
+melted = melt(mean_std, id = c("Subject", "label"))
+means = dcast(melted , Subject + label ~ variable, mean)
+
+# Save the result
+write.table(means, file="tidy.txt")
 
