@@ -2,10 +2,12 @@
 
 ##### Data source
 ---
+
 * Original data: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 * Original description of the dataset: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
 
 ##### The dataset includes the following files:
+
 ----
 
 - 'README.txt'
@@ -25,6 +27,7 @@
 - 'test/y_test.txt': Test labels.
 
 #### Variables
+
 ----
 
 The list of those variables is:
