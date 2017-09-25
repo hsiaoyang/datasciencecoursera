@@ -1,12 +1,12 @@
 ### CodeBook
 
 ##### Data source
-==================================
+---
 * Original data: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 * Original description of the dataset: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
 
 ##### The dataset includes the following files:
-=========================================
+----
 
 - 'README.txt'
 
@@ -24,13 +24,11 @@
 
 - 'test/y_test.txt': Test labels.
 
-Variables
-=========================================
-
+#### Variables
+----
 
 The list of those variables is:
 
-"x"
 "1" "Subject"
 "2" "label"
 "3" "tBodyAcc-mean()-X"
@@ -89,27 +87,5 @@ The list of those variables is:
 "56" "fBodyAccJerk-std()-Y"
 "57" "fBodyAccJerk-std()-Z"
 "58" "fBodyAccJerk-meanFreq()-X"
-"59" "fBodyAccJerk-meanFreq()-Y"
-"60" "fBodyAccJerk-meanFreq()-Z"
-"61" "fBodyGyro-mean()-X"
-"62" "fBodyGyro-mean()-Y"
-"63" "fBodyGyro-mean()-Z"
-"64" "fBodyGyro-std()-X"
-"65" "fBodyGyro-std()-Y"
-"66" "fBodyGyro-std()-Z"
-"67" "fBodyGyro-meanFreq()-X"
-"68" "fBodyGyro-meanFreq()-Y"
-"69" "fBodyGyro-meanFreq()-Z"
-"70" "fBodyAccMag-mean()"
-"71" "fBodyAccMag-std()"
-"72" "fBodyAccMag-meanFreq()"
-"73" "fBodyBodyAccJerkMag-mean()"
-"74" "fBodyBodyAccJerkMag-std()"
-"75" "fBodyBodyAccJerkMag-meanFreq()"
-"76" "fBodyBodyGyroMag-mean()"
-"77" "fBodyBodyGyroMag-std()"
-"78" "fBodyBodyGyroMag-meanFreq()"
-"79" "fBodyBodyGyroJerkMag-mean()"
-"80" "fBodyBodyGyroJerkMag-std()"
-"81" "fBodyBodyGyroJerkMag-meanFreq()"
+
 
