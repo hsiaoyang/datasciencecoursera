@@ -1,5 +1,7 @@
-##read all data 
+library(reshape)
+library(data.table)
 
+##read all data 
 sub_train <- read.table("train/subject_train.txt")
 x_train <- read.table("train/X_train.txt")
 y_train <- read.table("train/y_train.txt")
@@ -8,12 +10,13 @@ sub_test <- read.table("test/subject_test.txt")
 x_test <- read.table("test/X_test.txt")
 y_test <- read.table("test/y_test.txt")
 
+
 feature_names <- read.table("features.txt")
 activity_labels <- read.table("./activity_labels.txt")
 
 #  merge the test and trian subject datasets
 subject<-rbind(sub_train,sub_test)
-colnames(subject)<-"Subject"
+names(subject)<-"Subject"
 
 # merge the test and trian labels
 
